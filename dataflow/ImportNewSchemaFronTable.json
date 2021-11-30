@@ -1,0 +1,28 @@
+{
+	"name": "ImportNewSchemaFronTable",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "SourceData",
+						"type": "DatasetReference"
+					},
+					"name": "SourceTable"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					},
+					"name": "DestTable"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tcol00 as integer,\n\t\tcol01 as integer,\n\t\tcol02 as integer,\n\t\tcol03 as integer,\n\t\tcol04 as integer,\n\t\tcol05 as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SourceTable\nSourceTable sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DestTable"
+		}
+	}
+}
